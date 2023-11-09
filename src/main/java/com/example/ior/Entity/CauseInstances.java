@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 
-@Table(name = "Cause_instances")
+@Table(name = "cause_instances")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -24,4 +24,7 @@ public class CauseInstances {
     private Date timeCreated;
     @Schema(description = "Идентификатор сотрудника, создавшего последствие.")
     private String author;
+    @ManyToOne()
+    @JoinColumn(name = "incident_Id")
+    private IncidentEntity incident;
 }

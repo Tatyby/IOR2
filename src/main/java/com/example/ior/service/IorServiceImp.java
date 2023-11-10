@@ -7,17 +7,14 @@ import com.example.ior.exception.IorException;
 import com.example.ior.mapper.MyMapper;
 import com.example.ior.repository.IorRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,9 +60,9 @@ public class IorServiceImp implements IorService {
     }
 
     @Transactional(readOnly = true)
-    public Page<IncidentEntity> getAllIor(Specification<IncidentEntity> spec, Pageable pageable) {
-        return iorRepository.findAll(spec, pageable);
+    public List<IncidentEntity> getAllIor(Specification<IncidentEntity> specification, PageRequest pageRequest) {
 
+        return iorRepository.findAll(specification, pageRequest);
     }
 //
 //    public void batchCreate(MultipartFile file) {

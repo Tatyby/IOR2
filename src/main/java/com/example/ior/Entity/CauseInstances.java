@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Table(name = "cause_instances")
@@ -21,7 +22,7 @@ public class CauseInstances {
     @Schema(description = "Идентификатор причины.Рассчитывается внутри Сбер ОРМ как Идентификатор инцидента + '-C' + порядковый номер возмещения в инциденте (с учетом удаленных причин).")
     private String causeId;
     @Schema(description = "Дата создания")
-    private Date timeCreated;
+    private LocalDateTime timeCreated;
     @Schema(description = "Идентификатор сотрудника, создавшего последствие.")
     private String author;
     @ManyToOne()

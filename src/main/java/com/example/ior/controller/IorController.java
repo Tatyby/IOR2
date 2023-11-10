@@ -2,17 +2,19 @@ package com.example.ior.controller;
 
 import com.example.ior.DTO.EmailRequest;
 import com.example.ior.DTO.IncidentDTO;
+import com.example.ior.DTO.IncidentSpecification;
 import com.example.ior.Entity.IncidentEntity;
 import com.example.ior.service.IorServiceImp;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/ior")
@@ -45,13 +47,16 @@ public class IorController {
     }
 
     @GetMapping("/getIor")
-    public ResponseEntity<Page<IncidentEntity>> getIor(
-            @RequestParam(name = "filterField", required = false) String filterField,
+    public ResponseEntity<List<IncidentEntity>> getIor(
+            @RequestParam(name = "incidentAuthor", required = false) String incidentAuthor,
+            @RequestParam(name = "incidentTimeCreated", required = false) LocalDateTime incidentTimeCreated,
+            @RequestParam(name = "causeInstancesAuthor", required = false) String causeInstancesAuthor,
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "10") int size) {
-        Specification<IncidentEntity> spec = null;
-        Pageable pageable = PageRequest.of(page, size);
-        return new ResponseEntity<>(iorService.getAllIor(spec, pageable), HttpStatus.OK);
+            @RequestParam(name = "size", defaultValue = "3") int size) {
+        Specification<IncidentEntity> specification = IncidentSpecification.withFilter(incidentAuthor,incidentTimeCreated,causeInstancesAuthor);
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(iorService.getAllIor(specification,pageRequest));
 
     }
 

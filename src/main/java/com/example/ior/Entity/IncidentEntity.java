@@ -63,8 +63,8 @@ public class IncidentEntity {
     private LocalDateTime timeLastValidated;
     @Schema(description = "Тип клиента")
     @NotEmpty
-    private LocalDateTime clientType;
-    @OneToMany(mappedBy = "incident", cascade = CascadeType.ALL, orphanRemoval = true)
+    private String clientType;
+    @OneToMany(mappedBy = "incident", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CauseInstances> causeInstancesList;
 
 

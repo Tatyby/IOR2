@@ -33,6 +33,6 @@ public class IncidentDTO {
     private LocalDateTime timeFirstValidated;
     private LocalDateTime timeLastValidated;
     @NotEmpty
-    private LocalDateTime clientType;
-    private List<CauseInstances> causeInstancesList;
+    private String clientType;
+    private List<CauseInstancesDTO> causeInstancesList;
 }

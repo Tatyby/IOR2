@@ -1,6 +1,7 @@
 package com.example.ior.controller;
 
 import com.example.ior.DTO.EmailRequest;
+import com.example.ior.DTO.IncidentDTO;
 import com.example.ior.Entity.IncidentEntity;
 import com.example.ior.service.IorServiceImp;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,9 +25,17 @@ public class IorController {
 
     @Operation(summary = "Регистрация одного ИОР")
     @PostMapping("/create")
-    public ResponseEntity<?> createIor(@RequestBody @Validated IncidentEntity incidentEntity) {
-        iorService.create(incidentEntity);
+    public ResponseEntity<?> createIor(@RequestBody @Validated IncidentDTO incidentDTO) {
+        iorService.create(incidentDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Обновление ИОР")
+    @PutMapping("/updateIor/{idIncident}")
+    public ResponseEntity<?> updateIor(@PathVariable String idIncident, @RequestBody @Validated IncidentDTO incidentDTO) {
+        iorService.updateIor(idIncident, incidentDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
     @PostMapping("/sendEmail")
@@ -45,4 +54,10 @@ public class IorController {
         return new ResponseEntity<>(iorService.getAllIor(spec, pageable), HttpStatus.OK);
 
     }
+
+//    @PostMapping("/batchCreate")
+//    public ResponseEntity<String> batchCreateIor(@RequestParam MultipartFile file) {
+//        iorService.batchCreate(file);
+//        return new ResponseEntity<>(HttpStatus.CREATED);
+//    }
 }
